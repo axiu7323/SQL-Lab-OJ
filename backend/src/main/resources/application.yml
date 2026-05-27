@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: sql-lab-oj
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+

@@ -1,0 +1,23 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${SQL_OJ_DB_URL:jdbc:mysql://localhost:3306/sql_lab_oj?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${SQL_OJ_DB_USERNAME:root}
+    password: ${SQL_OJ_DB_PASSWORD:root}
+  data:
+    redis:
+      host: ${SQL_OJ_REDIS_HOST:localhost}
+      port: ${SQL_OJ_REDIS_PORT:6379}
+      password: ${SQL_OJ_REDIS_PASSWORD:}
+      database: ${SQL_OJ_REDIS_DATABASE:0}
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    banner: false
+
