@@ -2,7 +2,7 @@ package com.sqloj.domain.problem;
 
 import com.sqloj.domain.shared.exception.DomainException;
 
-public record JudgeConfig(int timeLimitMs, int maxRows, boolean orderSensitive) {
+public record JudgeConfig(int timeLimitMs, int maxRows, boolean orderSensitive, boolean checkColumnName) {
 
     public static final int DEFAULT_TIME_LIMIT_MS = 3000;
     public static final int DEFAULT_MAX_ROWS = 1000;
@@ -17,7 +17,7 @@ public record JudgeConfig(int timeLimitMs, int maxRows, boolean orderSensitive) 
     }
 
     public static JudgeConfig defaultConfig() {
-        return new JudgeConfig(DEFAULT_TIME_LIMIT_MS, DEFAULT_MAX_ROWS, false);
+        return new JudgeConfig(DEFAULT_TIME_LIMIT_MS, DEFAULT_MAX_ROWS, false, true);
     }
 }
 

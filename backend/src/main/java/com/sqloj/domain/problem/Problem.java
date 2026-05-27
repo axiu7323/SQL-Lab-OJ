@@ -14,8 +14,10 @@ public class Problem {
     private ProblemCategory category;
     private ProblemDifficulty difficulty;
     private ProblemStatus status;
+    private int score;
     private JudgeConfig judgeConfig;
     private List<ProblemCase> cases;
+    private boolean deleted;
 
     public Problem(
             ProblemId id,
@@ -33,7 +35,9 @@ public class Problem {
         this.category = Objects.requireNonNull(category, "category must not be null");
         this.difficulty = Objects.requireNonNull(difficulty, "difficulty must not be null");
         this.status = Objects.requireNonNull(status, "status must not be null");
+        this.score = 100;
         this.judgeConfig = Objects.requireNonNull(judgeConfig, "judgeConfig must not be null");
+        this.deleted = false;
         replaceCases(cases);
     }
 
@@ -50,7 +54,7 @@ public class Problem {
     }
 
     public boolean canSubmit() {
-        return status == ProblemStatus.ENABLED;
+        return status == ProblemStatus.ENABLED && !deleted;
     }
 
     public void validateForPublish() {
@@ -74,6 +78,11 @@ public class Problem {
         this.status = ProblemStatus.DISABLED;
     }
 
+    public void delete() {
+        this.deleted = true;
+        this.status = ProblemStatus.DISABLED;
+    }
+
     public void updateBasicInfo(String title, String description, ProblemCategory category, ProblemDifficulty difficulty) {
         this.title = normalizeRequiredText(title, "problem title must not be blank");
         this.description = normalizeRequiredText(description, "problem description must not be blank");
@@ -83,6 +92,13 @@ public class Problem {
 
     public void updateJudgeConfig(JudgeConfig judgeConfig) {
         this.judgeConfig = Objects.requireNonNull(judgeConfig, "judgeConfig must not be null");
+    }
+
+    public void updateScore(int score) {
+        if (score < 0 || score > 100) {
+            throw new DomainException("problem score must be between 0 and 100");
+        }
+        this.score = score;
     }
 
     public void replaceCases(List<ProblemCase> cases) {
@@ -120,12 +136,20 @@ public class Problem {
         return status;
     }
 
+    public int getScore() {
+        return score;
+    }
+
     public JudgeConfig getJudgeConfig() {
         return judgeConfig;
     }
 
     public List<ProblemCase> getCases() {
         return List.copyOf(cases);
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 
     private static String normalizeRequiredText(String value, String message) {
