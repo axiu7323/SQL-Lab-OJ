@@ -13,6 +13,7 @@ public enum ErrorCode {
     USER_NOT_FOUND("B0001", "user not found"),
     PROBLEM_NOT_FOUND("B0002", "problem not found"),
     PROBLEM_NOT_ENABLED("B0003", "problem is not enabled"),
+    SUBMISSION_NOT_FOUND("B0004", "submission not found"),
     SQL_NOT_SAFE("J0001", "sql is not safe"),
     JUDGE_TIMEOUT("J0002", "judge execution timeout"),
     SYSTEM_ERROR("S0001", "system error");

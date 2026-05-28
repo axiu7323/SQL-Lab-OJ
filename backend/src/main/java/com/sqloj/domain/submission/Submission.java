@@ -20,6 +20,7 @@ public class Submission {
     private SubmissionStatus status;
     private JudgeScore score;
     private JudgeError error;
+    private long executeTimeMs;
     private LocalDateTime judgedAt;
 
     public Submission(
@@ -30,9 +31,13 @@ public class Submission {
             SubmissionStatus status,
             JudgeScore score,
             JudgeError error,
+            long executeTimeMs,
             LocalDateTime submittedAt,
             LocalDateTime judgedAt
     ) {
+        if (executeTimeMs < 0) {
+            throw new DomainException("execute time must not be negative");
+        }
         this.id = Objects.requireNonNull(id, "id must not be null");
         this.userId = Objects.requireNonNull(userId, "userId must not be null");
         this.problemId = Objects.requireNonNull(problemId, "problemId must not be null");
@@ -40,6 +45,7 @@ public class Submission {
         this.status = Objects.requireNonNull(status, "status must not be null");
         this.score = Objects.requireNonNull(score, "score must not be null");
         this.error = Objects.requireNonNull(error, "error must not be null");
+        this.executeTimeMs = executeTimeMs;
         this.submittedAt = Objects.requireNonNull(submittedAt, "submittedAt must not be null");
         this.judgedAt = judgedAt;
     }
@@ -53,6 +59,7 @@ public class Submission {
                 SubmissionStatus.PENDING,
                 JudgeScore.zero(),
                 JudgeError.none(),
+                0,
                 LocalDateTime.now(),
                 null
         );
@@ -75,6 +82,7 @@ public class Submission {
             case CE -> markCompileError(result.getError());
             case SE -> markSystemError(result.getError());
         }
+        this.executeTimeMs = result.getExecuteTimeMs();
         this.judgedAt = result.getJudgedAt();
     }
 
@@ -136,6 +144,10 @@ public class Submission {
 
     public JudgeError getError() {
         return error;
+    }
+
+    public long getExecuteTimeMs() {
+        return executeTimeMs;
     }
 
     public LocalDateTime getJudgedAt() {
