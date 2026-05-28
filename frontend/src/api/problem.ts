@@ -31,9 +31,9 @@ export function deleteProblem(problemId: number) {
 }
 
 export function enableProblem(problemId: number) {
-  return request.put<void, void>(`/teacher/problems/${problemId}/enable`)
+  return request.post<void, void>(`/teacher/problems/${problemId}/enable`)
 }
 
 export function disableProblem(problemId: number) {
-  return request.put<void, void>(`/teacher/problems/${problemId}/disable`)
+  return request.post<void, void>(`/teacher/problems/${problemId}/disable`)
 }

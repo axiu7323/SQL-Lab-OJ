@@ -58,3 +58,4 @@
 - `docs/10-review/02-backend-review-checklist.md`
 - `docs/10-review/03-frontend-review-checklist.md`
 - `docs/10-review/04-judge-review-checklist.md`
+- `docs/10-review/05-integration-test-report.md`
