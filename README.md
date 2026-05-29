@@ -47,7 +47,6 @@ npm run dev
 
 ### 当前缺口
 
-- 暂未提供 `docker-compose.yml`。
 - 暂未完成登录认证、权限控制和真实数据库端到端联调。
 
 ## 数据库初始化
@@ -65,6 +64,69 @@ mysql -uroot -p < sql/data.sql
 ```
 
 更详细说明见 `sql/README.md`。
+
+## Docker Compose 一键部署
+
+当前仓库已提供根目录 `docker-compose.yml`，包含 MySQL 8、Redis 7、后端 Spring Boot 服务和前端 Nginx 服务。
+
+### 启动前检查
+
+```bash
+docker --version
+docker compose version
+docker compose config
+```
+
+### 启动服务
+
+```bash
+docker compose up -d --build
+```
+
+首次启动时，MySQL 会自动执行：
+
+- `sql/schema.sql`
+- `sql/data.sql`
+
+### 访问地址
+
+- 前端页面：http://localhost:8081
+- 后端接口：http://localhost:8080/api/health
+- MySQL：`localhost:3306`
+- Redis：`localhost:6379`
+
+### 默认环境变量
+
+```text
+MYSQL_ROOT_PASSWORD=root_password
+MYSQL_DATABASE=sql_lab_oj
+MYSQL_USER=sqloj
+MYSQL_PASSWORD=sqloj_password
+BACKEND_PORT=8080
+FRONTEND_PORT=8081
+```
+
+后端容器通过以下环境变量连接依赖服务：
+
+- `SQL_OJ_DB_URL`
+- `SQL_OJ_DB_USERNAME`
+- `SQL_OJ_DB_PASSWORD`
+- `SQL_OJ_REDIS_HOST`
+- `SQL_OJ_REDIS_PORT`
+
+### 停止服务
+
+```bash
+docker compose down
+```
+
+如需同时删除 MySQL 和 Redis 数据卷：
+
+```bash
+docker compose down -v
+```
+
+注意：当前项目尚未实现登录认证和完整权限控制，Docker 部署主要用于本地演示和后续端到端联调。
 
 ## 推荐 Codex 提示词
 
