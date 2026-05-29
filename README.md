@@ -24,7 +24,7 @@ cd backend
 mvn -q test
 ```
 
-如需启动后端服务，需要先准备 MySQL 和 Redis，并配置 `application-local.yml` 中的数据源连接。当前仓库尚未补齐 `schema.sql`，因此真实数据库启动和端到端判题仍需要后续数据库初始化任务支持。
+如需启动后端服务，需要先准备 MySQL 和 Redis，并配置 `application-local.yml` 中的数据源连接。当前仓库已提供 `sql/schema.sql` 和 `sql/data.sql`，真实端到端判题仍需要 MySQL 沙箱权限、登录权限控制和部署环境共同验证。
 
 ### 前端
 
@@ -87,6 +87,9 @@ docker compose up -d --build
 
 - `sql/schema.sql`
 - `sql/data.sql`
+- `docker/mysql/03-grant-sandbox.sql`
+
+其中 `03-grant-sandbox.sql` 会给默认应用用户 `sqloj` 授予本地演示所需的临时沙箱数据库 `CREATE` / `DROP` 权限。生产环境应改为更严格的专用沙箱账号和权限策略。
 
 ### 访问地址
 
