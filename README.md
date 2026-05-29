@@ -47,9 +47,24 @@ npm run dev
 
 ### 当前缺口
 
-- 暂未提供 `schema.sql` 或数据库初始化数据。
 - 暂未提供 `docker-compose.yml`。
 - 暂未完成登录认证、权限控制和真实数据库端到端联调。
+
+## 数据库初始化
+
+数据库脚本位于 `sql` 目录：
+
+- `sql/schema.sql`：创建 MySQL 8 数据库和表结构。
+- `sql/data.sql`：写入演示用户、班级、题目和提交数据。
+
+导入命令：
+
+```bash
+mysql -uroot -p < sql/schema.sql
+mysql -uroot -p < sql/data.sql
+```
+
+更详细说明见 `sql/README.md`。
 
 ## 推荐 Codex 提示词
 

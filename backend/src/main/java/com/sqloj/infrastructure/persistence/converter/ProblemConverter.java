@@ -23,7 +23,7 @@ public class ProblemConverter {
                 ProblemId.of(problemDO.getId()),
                 problemDO.getTitle(),
                 problemDO.getDescription(),
-                new ProblemCategory(problemDO.getCategoryId(), "category-" + problemDO.getCategoryId()),
+                new ProblemCategory(problemDO.getCategoryId(), defaultCategoryName(problemDO)),
                 ProblemDifficulty.valueOf(problemDO.getDifficulty()),
                 ProblemStatus.valueOf(problemDO.getStatus()),
                 new JudgeConfig(
@@ -53,6 +53,7 @@ public class ProblemConverter {
         problemDO.setTitle(problem.getTitle());
         problemDO.setDescription(problem.getDescription());
         problemDO.setCategoryId(problem.getCategory().id());
+        problemDO.setCategoryName(problem.getCategory().name());
         problemDO.setDifficulty(problem.getDifficulty().name());
         problemDO.setScore(problem.getScore());
         problemDO.setInitSchemaSql(problemCase.schemaSql().content());
@@ -69,6 +70,11 @@ public class ProblemConverter {
 
     private int defaultInt(Integer value, int defaultValue) {
         return value == null ? defaultValue : value;
+    }
+
+    private String defaultCategoryName(ProblemDO problemDO) {
+        String categoryName = problemDO.getCategoryName();
+        return categoryName == null || categoryName.isBlank() ? "category-" + problemDO.getCategoryId() : categoryName;
     }
 }
 

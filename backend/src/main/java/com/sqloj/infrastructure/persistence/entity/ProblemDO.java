@@ -23,6 +23,8 @@ public class ProblemDO {
 
     private Long categoryId;
 
+    private String categoryName;
+
     private String difficulty;
 
     private Integer score;
